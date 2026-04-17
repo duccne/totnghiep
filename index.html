@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Đổi đơn vị nhiệt độ - Bài thi</title>
+    <style>
+        body { font-family: Arial, sans-serif; display: flex; justify-content: center; padding-top: 50px; background-color: #f4f4f4; }
+        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 300px; text-align: center; }
+        input { width: 80%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; }
+        .radio-group { text-align: left; margin: 10px 25px; }
+        button { width: 90%; padding: 10px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        #result { margin-top: 20px; font-size: 24px; font-weight: bold; }
+        .negative { color: red; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h3>Đổi đơn vị nhiệt độ</h3>
+    
+    <input type="text" id="celsiusInput" placeholder="Nhập độ Celsius...">
+
+    <div class="radio-group">
+        <input type="radio" name="unit" value="F" id="toF" checked> <label for="toF">Celsius ➔ Fahrenheit</label><br>
+        <input type="radio" name="unit" value="K" id="toK"> <label for="toK">Celsius ➔ Kelvin</label>
+    </div>
+
+    <button onclick="chuyenDoi()">Chuyển đổi</button>
+
+    <div id="result">Kết quả</div>
+</div>
+
+<script>
+    function chuyenDoi() {
+        const input = document.getElementById('celsiusInput').value;
+        const resultLabel = document.getElementById('result');
+        const toF = document.getElementById('toF').checked;
+
+        // Câu 3: Try-except (trong JS dùng try-catch) để bắt lỗi nhập liệu
+        try {
+            if (input === "" || isNaN(input)) {
+                throw new Error("Vui lòng nhập số hợp lệ!");
+            }
+
+            let celsius = parseFloat(input);
+            let ketQua;
+            let donVi;
+
+            if (toF) {
+                ketQua = (celsius * 9/5) + 32;
+                donVi = "°F";
+            } else {
+                ketQua = celsius + 273.15;
+                donVi = "K";
+            }
+
+            // Hiển thị kết quả
+            resultLabel.innerText = ketQua.toFixed(2) + " " + donVi;
+
+            // Câu 4: Đổi màu đỏ nếu nhiệt độ âm
+            if (ketQua < 0) {
+                resultLabel.classList.add('negative');
+            } else {
+                resultLabel.classList.remove('negative');
+            }
+
+        } catch (err) {
+            alert(err.message);
+        }
+    }
+</script>
+
+</body>
+</html>
