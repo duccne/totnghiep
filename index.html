@@ -1,21 +1,483 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang tin tức realtime</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="NovaShop - website thương mại điện tử hiện đại">
+<title>NovaShop - Thương mại điện tử</title>
+<style>
+:root{
+  --primary:#6c5ce7;--primary2:#8e7cff;--accent:#ff6b6b;--success:#20bf6b;
+  --bg:#f6f7fb;--card:#fff;--text:#202124;--muted:#6b7280;--border:#e8eaf0;
+  --shadow:0 12px 35px rgba(31,35,55,.08);--radius:18px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);line-height:1.55}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;border:0}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+.container{width:min(1180px,calc(100% - 32px));margin:auto}
+.topbar{background:#171827;color:#fff;font-size:13px}
+.topbar .container{display:flex;justify-content:space-between;padding:9px 0;gap:16px}
+.header{background:#fff;position:sticky;top:0;z-index:50;border-bottom:1px solid var(--border)}
+.header-main{height:76px;display:flex;align-items:center;gap:22px}
+.logo{font-size:27px;font-weight:900;color:var(--primary);white-space:nowrap}
+.logo span{color:var(--accent)}
+.search{flex:1;display:flex;background:#f3f4f8;border-radius:14px;overflow:hidden;border:1px solid transparent}
+.search:focus-within{border-color:var(--primary)}
+.search input{flex:1;background:transparent;border:0;padding:13px 16px;outline:0}
+.search button{background:var(--primary);color:#fff;padding:0 20px}
+.header-actions{display:flex;align-items:center;gap:10px}
+.icon-btn{width:44px;height:44px;border-radius:13px;background:#f3f4f8;position:relative}
+.icon-btn:hover{background:#e8e6ff}
+.badge{position:absolute;right:-4px;top:-5px;background:var(--accent);color:#fff;font-size:11px;min-width:20px;height:20px;border-radius:50%;display:grid;place-items:center}
+.nav{border-top:1px solid #f0f0f3}
+.nav .container{display:flex;gap:26px;align-items:center;height:48px}
+.nav a{font-size:14px;font-weight:700;color:#4b4f5b}
+.nav a:hover{color:var(--primary)}
+.hero{padding:30px 0}
+.hero-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:18px}
+.hero-main{min-height:390px;border-radius:26px;padding:52px;display:flex;align-items:center;position:relative;overflow:hidden;background:linear-gradient(120deg,#5f4de4,#9d8cff);color:#fff}
+.hero-main:after{content:"";position:absolute;width:330px;height:330px;border-radius:50%;background:rgba(255,255,255,.12);right:-70px;bottom:-110px}
+.hero-main h1{font-size:clamp(34px,5vw,60px);line-height:1.05;max-width:650px;margin:10px 0 18px}
+.hero-main p{max-width:580px;color:#eee;font-size:17px}
+.hero-side{display:grid;gap:18px}
+.promo{border-radius:24px;padding:28px;color:#fff;min-height:186px;display:flex;flex-direction:column;justify-content:center}
+.promo.one{background:linear-gradient(135deg,#ff6b6b,#ff9f43)}
+.promo.two{background:linear-gradient(135deg,#20bf6b,#26de81)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 19px;border-radius:12px;font-weight:800;transition:.2s}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(108,92,231,.25)}
+.btn-light{background:#fff;color:#292b3a}
+.btn-outline{border:1px solid var(--border);background:#fff}
+.hero .btn{margin-top:24px}
+.section{padding:30px 0}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:15px;margin-bottom:18px}
+.section-head h2{font-size:28px}
+.section-head p{color:var(--muted)}
+.categories{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+.category{background:#fff;border:1px solid var(--border);border-radius:18px;padding:22px 12px;text-align:center;box-shadow:var(--shadow);transition:.2s}
+.category:hover{transform:translateY(-4px);border-color:#d7d2ff}
+.category .emoji{font-size:38px;margin-bottom:9px}
+.category strong{font-size:14px}
+.flash{background:#171827;color:#fff;border-radius:24px;padding:24px;margin:18px 0 10px}
+.flash-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.timer{display:flex;gap:8px}
+.timer b{background:#fff;color:#171827;padding:7px 9px;border-radius:8px;min-width:38px;text-align:center}
+.products-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.product{background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:hidden;box-shadow:var(--shadow);position:relative;transition:.25s}
+.product:hover{transform:translateY(-5px)}
+.product-img{height:220px;background:#f0f1f6;display:grid;place-items:center;overflow:hidden}
+.product-img img{width:100%;height:100%;object-fit:cover}
+.product-body{padding:15px}
+.product-cat{font-size:12px;color:var(--muted)}
+.product-name{font-size:16px;font-weight:800;margin:5px 0;min-height:48px}
+.rating{color:#f5a623;font-size:13px}
+.price{font-size:19px;font-weight:900;margin:8px 0}
+.old{font-size:13px;color:#9aa0aa;text-decoration:line-through;margin-left:5px;font-weight:500}
+.product-actions{display:flex;gap:8px}
+.product-actions .btn{flex:1;padding:10px}
+.heart{position:absolute;right:12px;top:12px;width:38px;height:38px;border-radius:50%;background:#fff;box-shadow:0 4px 15px rgba(0,0,0,.12)}
+.heart.active{color:var(--accent)}
+.discount{position:absolute;left:12px;top:12px;background:var(--accent);color:#fff;padding:5px 8px;border-radius:7px;font-size:11px;font-weight:800}
+.toolbar{display:flex;justify-content:space-between;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.filter{background:#fff;border:1px solid var(--border);border-radius:10px;padding:9px 13px}
+.filter.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.select{padding:10px 13px;border:1px solid var(--border);border-radius:10px;background:#fff}
+.features{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
+.feature{background:#fff;padding:23px;border:1px solid var(--border);border-radius:17px}
+.feature .big{font-size:30px;margin-bottom:8px}
+.feature h3{font-size:16px;margin-bottom:5px}
+.feature p{color:var(--muted);font-size:13px}
+.banner{background:linear-gradient(110deg,#fff,#eceaff);border-radius:25px;padding:35px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.banner h2{font-size:30px}
+.reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.review{background:#fff;border:1px solid var(--border);padding:22px;border-radius:18px}
+.review p{color:#555b68;margin:12px 0}
+.user{display:flex;gap:10px;align-items:center}
+.avatar{width:42px;height:42px;border-radius:50%;background:#e7e4ff;display:grid;place-items:center;font-weight:900;color:var(--primary)}
+.faq{display:grid;gap:10px}
+.faq-item{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.faq-q{padding:17px;display:flex;justify-content:space-between;font-weight:800}
+.faq-a{display:none;padding:0 17px 17px;color:var(--muted)}
+.faq-item.open .faq-a{display:block}
+.newsletter{background:#171827;color:#fff;border-radius:25px;padding:36px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.newsletter form{display:flex;background:#fff;border-radius:12px;padding:5px;max-width:450px;width:100%}
+.newsletter input{border:0;outline:0;padding:10px;flex:1}
+.footer{background:#11121c;color:#bfc1ca;margin-top:30px;padding:45px 0 20px}
+.footer-grid{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:35px}
+.footer h3{color:#fff;margin-bottom:12px}
+.footer p,.footer a{font-size:14px;display:block;margin:7px 0}
+.footer a:hover{color:#fff}
+.copyright{border-top:1px solid #292b37;margin-top:30px;padding-top:18px;text-align:center;font-size:13px}
+.overlay{position:fixed;inset:0;background:rgba(10,12,20,.55);z-index:100;display:none}
+.overlay.show{display:block}
+.drawer{position:fixed;right:0;top:0;height:100%;width:min(440px,100%);background:#fff;z-index:110;transform:translateX(100%);transition:.3s;display:flex;flex-direction:column}
+.drawer.show{transform:translateX(0)}
+.drawer-head{padding:20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between}
+.drawer-body{padding:18px;overflow:auto;flex:1}
+.cart-item{display:flex;gap:12px;padding:13px 0;border-bottom:1px solid var(--border)}
+.cart-item img{width:70px;height:70px;object-fit:cover;border-radius:10px}
+.cart-info{flex:1}
+.qty{display:flex;align-items:center;gap:8px;margin-top:7px}
+.qty button{width:27px;height:27px;border-radius:7px;background:#f0f1f5}
+.cart-foot{padding:18px;border-top:1px solid var(--border)}
+.total{display:flex;justify-content:space-between;font-size:20px;font-weight:900;margin-bottom:12px}
+.modal{position:fixed;z-index:120;left:50%;top:50%;transform:translate(-50%,-50%) scale(.95);width:min(760px,calc(100% - 28px));max-height:90vh;overflow:auto;background:#fff;border-radius:22px;display:none}
+.modal.show{display:block;animation:pop .2s forwards}
+@keyframes pop{to{transform:translate(-50%,-50%) scale(1)}}
+.modal-head{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between}
+.modal-body{padding:22px}
+.detail{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.detail-img{border-radius:18px;overflow:hidden;background:#f1f2f6}
+.detail-img img{width:100%;height:360px;object-fit:cover}
+.detail h2{font-size:28px}
+.detail .desc{color:var(--muted);margin:15px 0}
+.form{display:grid;gap:12px}
+.form input,.form textarea{width:100%;padding:12px;border:1px solid var(--border);border-radius:10px;outline:0}
+.form input:focus,.form textarea:focus{border-color:var(--primary)}
+.auth-tabs{display:flex;margin-bottom:20px;background:#f4f4f8;border-radius:10px;padding:4px}
+.auth-tabs button{flex:1;padding:10px;border-radius:8px;background:transparent}
+.auth-tabs button.active{background:#fff;box-shadow:var(--shadow)}
+.toast{position:fixed;right:20px;bottom:20px;z-index:200;background:#171827;color:#fff;padding:13px 18px;border-radius:12px;transform:translateY(100px);opacity:0;transition:.3s}
+.toast.show{transform:translateY(0);opacity:1}
+.empty{text-align:center;padding:35px;color:var(--muted)}
+.backtop{position:fixed;right:18px;bottom:80px;width:42px;height:42px;border-radius:50%;background:var(--primary);color:#fff;display:none;z-index:40}
+.backtop.show{display:block}
+@media(max-width:950px){
+  .hero-grid{grid-template-columns:1fr}.categories{grid-template-columns:repeat(3,1fr)}
+  .products-grid{grid-template-columns:repeat(3,1fr)}.features{grid-template-columns:repeat(2,1fr)}
+  .footer-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:680px){
+  .topbar .container{display:none}.header-main{height:auto;padding:12px 0;flex-wrap:wrap}
+  .logo{font-size:23px}.search{order:3;flex-basis:100%}.nav{display:none}
+  .hero-main{padding:30px;min-height:350px}.promo{min-height:150px}
+  .categories{grid-template-columns:repeat(2,1fr)}.products-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .product-img{height:170px}.product-name{font-size:14px}.price{font-size:16px}
+  .features,.reviews,.detail{grid-template-columns:1fr}.banner,.newsletter{display:block}
+  .newsletter form{margin-top:18px}.footer-grid{grid-template-columns:1fr}
+}
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>Trang Tin Tức Realtime</h1>
-        
-        <div id="loading" class="loading">Đang tải dữ liệu...</div>
-        
-        <div id="error-message" class="error" style="display: none;"></div>
-        
-        <div id="news-container" class="news-grid"></div>
+
+<div class="topbar"><div class="container">
+  <span>🚚 Miễn phí vận chuyển đơn từ 499.000₫</span>
+  <span>☎ Hotline: 1900 6868 · Hỗ trợ 24/7</span>
+</div></div>
+
+<header class="header">
+  <div class="container header-main">
+    <a class="logo" href="#">Nova<span>Shop</span></a>
+    <div class="search">
+      <input id="searchInput" placeholder="Tìm kiếm sản phẩm..." autocomplete="off">
+      <button onclick="searchProducts()">🔍 Tìm</button>
     </div>
-    <script src="script.js"></script>
+    <div class="header-actions">
+      <button class="icon-btn" onclick="openAuth()" title="Tài khoản">👤</button>
+      <button class="icon-btn" onclick="openWishlist()" title="Yêu thích">♡<span class="badge" id="wishCount">0</span></button>
+      <button class="icon-btn" onclick="openCart()" title="Giỏ hàng">🛒<span class="badge" id="cartCount">0</span></button>
+    </div>
+  </div>
+  <nav class="nav"><div class="container">
+    <a href="#home">Trang chủ</a><a href="#products">Sản phẩm</a><a href="#categories">Danh mục</a>
+    <a href="#features">Tính năng</a><a href="#reviews">Đánh giá</a><a href="#faq">FAQ</a><a href="#contact">Liên hệ</a>
+  </div></nav>
+</header>
+
+<main>
+<section class="hero" id="home"><div class="container hero-grid">
+  <div class="hero-main">
+    <div>
+      <small>✨ MUA SẮM THÔNG MINH</small>
+      <h1>Cả thế giới mua sắm trong một chạm.</h1>
+      <p>Khám phá hàng nghìn sản phẩm chính hãng, ưu đãi mỗi ngày và trải nghiệm thanh toán nhanh chóng tại NovaShop.</p>
+      <a href="#products" class="btn btn-light">Khám phá ngay →</a>
+    </div>
+  </div>
+  <div class="hero-side">
+    <div class="promo one"><small>🔥 FLASH SALE</small><h2>Giảm đến 50%</h2><p>Hàng ngàn deal đang chờ bạn.</p><a href="#flash" class="btn btn-light" style="width:max-content;margin-top:12px">Săn deal</a></div>
+    <div class="promo two"><small>🎁 THÀNH VIÊN MỚI</small><h2>Voucher 100K</h2><p>Cho đơn hàng đầu tiên.</p><button class="btn btn-light" style="width:max-content;margin-top:12px" onclick="openAuth()">Đăng ký</button></div>
+  </div>
+</div></section>
+
+<section class="section" id="categories"><div class="container">
+  <div class="section-head"><div><h2>Danh mục nổi bật</h2><p>Chọn đúng thứ bạn đang cần.</p></div></div>
+  <div class="categories">
+    <button class="category" onclick="filterCategory('Điện thoại')"><div class="emoji">📱</div><strong>Điện thoại</strong></button>
+    <button class="category" onclick="filterCategory('Laptop')"><div class="emoji">💻</div><strong>Laptop</strong></button>
+    <button class="category" onclick="filterCategory('Thời trang')"><div class="emoji">👕</div><strong>Thời trang</strong></button>
+    <button class="category" onclick="filterCategory('Gia dụng')"><div class="emoji">🏠</div><strong>Gia dụng</strong></button>
+    <button class="category" onclick="filterCategory('Phụ kiện')"><div class="emoji">🎧</div><strong>Phụ kiện</strong></button>
+    <button class="category" onclick="filterCategory('Làm đẹp')"><div class="emoji">💄</div><strong>Làm đẹp</strong></button>
+  </div>
+</div></section>
+
+<section class="section" id="flash"><div class="container">
+  <div class="flash"><div class="flash-head"><div><h2>⚡ Flash Sale</h2><small>Ưu đãi có hạn</small></div><div class="timer"><b id="hh">08</b><b id="mm">45</b><b id="ss">32</b></div></div><div class="products-grid" id="flashGrid"></div></div>
+</div></section>
+
+<section class="section" id="products"><div class="container">
+  <div class="section-head"><div><h2>Tất cả sản phẩm</h2><p id="resultText">Khám phá các sản phẩm được chọn lọc.</p></div></div>
+  <div class="toolbar">
+    <div class="filters">
+      <button class="filter active" onclick="filterCategory('Tất cả',this)">Tất cả</button>
+      <button class="filter" onclick="filterCategory('Điện thoại',this)">Điện thoại</button>
+      <button class="filter" onclick="filterCategory('Laptop',this)">Laptop</button>
+      <button class="filter" onclick="filterCategory('Thời trang',this)">Thời trang</button>
+      <button class="filter" onclick="filterCategory('Gia dụng',this)">Gia dụng</button>
+      <button class="filter" onclick="filterCategory('Phụ kiện',this)">Phụ kiện</button>
+    </div>
+    <select class="select" id="sortSelect" onchange="renderProducts()">
+      <option value="default">Sắp xếp mặc định</option><option value="priceAsc">Giá thấp → cao</option>
+      <option value="priceDesc">Giá cao → thấp</option><option value="rating">Đánh giá cao</option>
+      <option value="name">Tên A → Z</option>
+    </select>
+  </div>
+  <div class="products-grid" id="productGrid"></div>
+</div></section>
+
+<section class="section" id="features"><div class="container">
+  <div class="section-head"><div><h2>Vì sao chọn NovaShop?</h2><p>Mọi thứ cần thiết cho một trải nghiệm mua sắm tử tế.</p></div></div>
+  <div class="features">
+    <div class="feature"><div class="big">🚚</div><h3>Giao hàng nhanh</h3><p>Giao tận nơi toàn quốc, theo dõi đơn hàng dễ dàng.</p></div>
+    <div class="feature"><div class="big">🛡️</div><h3>Chính hãng & an toàn</h3><p>Sản phẩm được kiểm duyệt và bảo vệ quyền lợi khách hàng.</p></div>
+    <div class="feature"><div class="big">💳</div><h3>Thanh toán tiện lợi</h3><p>Hỗ trợ nhiều phương thức thanh toán nhanh và bảo mật.</p></div>
+    <div class="feature"><div class="big">↩️</div><h3>Đổi trả dễ dàng</h3><p>Hỗ trợ đổi trả theo chính sách minh bạch và rõ ràng.</p></div>
+  </div>
+</div></section>
+
+<section class="section"><div class="container"><div class="banner">
+  <div><small>🎁 ƯU ĐÃI ĐẶC BIỆT</small><h2>Giảm 100.000₫ cho đơn đầu tiên</h2><p>Nhập mã <b>NOVANEW100</b> khi thanh toán.</p></div>
+  <button class="btn btn-primary" onclick="copyCoupon()">Sao chép mã</button>
+</div></div></section>
+
+<section class="section" id="reviews"><div class="container">
+  <div class="section-head"><div><h2>Khách hàng nói gì?</h2><p>Những trải nghiệm thật từ cộng đồng mua sắm.</p></div></div>
+  <div class="reviews">
+    <div class="review"><div class="rating">★★★★★</div><p>“Giao diện dễ dùng, tìm sản phẩm nhanh. Đóng gói rất ổn và giao đúng hẹn.”</p><div class="user"><div class="avatar">A</div><div><b>An Nguyễn</b><small> Khách hàng</small></div></div></div>
+    <div class="review"><div class="rating">★★★★★</div><p>“Mình thích phần giỏ hàng và mã giảm giá. Mua trên điện thoại cũng rất tiện.”</p><div class="user"><div class="avatar">M</div><div><b>Minh Trần</b><small> Khách hàng</small></div></div></div>
+    <div class="review"><div class="rating">★★★★★</div><p>“Sản phẩm đa dạng, thông tin rõ ràng. Hỗ trợ khách hàng phản hồi nhanh.”</p><div class="user"><div class="avatar">L</div><div><b>Lan Phạm</b><small> Khách hàng</small></div></div></div>
+  </div>
+</div></section>
+
+<section class="section" id="faq"><div class="container">
+  <div class="section-head"><div><h2>Câu hỏi thường gặp</h2><p>Cần biết gì, mở câu trả lời ngay.</p></div></div>
+  <div class="faq">
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">NovaShop có giao hàng toàn quốc? <span>＋</span></button><div class="faq-a">Có. NovaShop hỗ trợ giao hàng đến hầu hết tỉnh thành tại Việt Nam.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Tôi có thể đổi trả sản phẩm không? <span>＋</span></button><div class="faq-a">Có. Sản phẩm đủ điều kiện sẽ được hỗ trợ đổi trả theo chính sách của cửa hàng.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Có thể lưu sản phẩm yêu thích không? <span>＋</span></button><div class="faq-a">Có. Nhấn biểu tượng trái tim trên sản phẩm để lưu vào danh sách yêu thích.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Giỏ hàng có được lưu khi đóng trình duyệt? <span>＋</span></button><div class="faq-a">Có. Demo này sử dụng localStorage để lưu giỏ hàng trên thiết bị của bạn.</div></div>
+  </div>
+</div></section>
+
+<section class="section" id="contact"><div class="container"><div class="newsletter">
+  <div><small>📩 NHẬN ƯU ĐÃI</small><h2>Đừng bỏ lỡ deal mới.</h2><p>Đăng ký email để nhận thông báo khuyến mãi.</p></div>
+  <form onsubmit="subscribe(event)"><input type="email" required placeholder="Email của bạn"><button class="btn btn-primary">Đăng ký</button></form>
+</div></div></section>
+</main>
+
+<footer class="footer"><div class="container">
+  <div class="footer-grid">
+    <div><div class="logo">Nova<span>Shop</span></div><p>Nền tảng thương mại điện tử demo hiện đại, nhanh và thân thiện.</p><p>📍 123 Nguyễn Văn Linh, TP. Hồ Chí Minh</p><p>☎ 1900 6868</p><p>✉ support@novashop.vn</p></div>
+    <div><h3>Mua sắm</h3><a href="#products">Sản phẩm</a><a href="#categories">Danh mục</a><a href="#flash">Flash Sale</a><a href="#">Thương hiệu</a></div>
+    <div><h3>Hỗ trợ</h3><a href="#faq">FAQ</a><a href="#">Chính sách đổi trả</a><a href="#">Vận chuyển</a><a href="#">Bảo mật</a></div>
+    <div><h3>Kết nối</h3><a href="#">Facebook</a><a href="#">Instagram</a><a href="#">TikTok</a><a href="#">YouTube</a></div>
+  </div>
+  <div class="copyright">© 2026 NovaShop. Demo website thương mại điện tử.</div>
+</div></footer>
+
+<div class="overlay" id="overlay" onclick="closeAll()"></div>
+
+<aside class="drawer" id="cartDrawer">
+  <div class="drawer-head"><h2>🛒 Giỏ hàng</h2><button onclick="closeCart()">✕</button></div>
+  <div class="drawer-body" id="cartBody"></div>
+  <div class="cart-foot"><div class="total"><span>Tổng cộng</span><span id="cartTotal">0₫</span></div><button class="btn btn-primary" style="width:100%" onclick="checkout()">Thanh toán</button></div>
+</aside>
+
+<div class="modal" id="detailModal"><div class="modal-head"><h2>Chi tiết sản phẩm</h2><button onclick="closeModal('detailModal')">✕</button></div><div class="modal-body" id="detailBody"></div></div>
+
+<div class="modal" id="authModal"><div class="modal-head"><h2>Tài khoản</h2><button onclick="closeModal('authModal')">✕</button></div><div class="modal-body">
+  <div class="auth-tabs"><button id="loginTab" class="active" onclick="showAuth('login')">Đăng nhập</button><button id="registerTab" onclick="showAuth('register')">Đăng ký</button></div>
+  <form class="form" id="loginForm" onsubmit="login(event)"><input type="email" required placeholder="Email"><input type="password" required placeholder="Mật khẩu"><button class="btn btn-primary">Đăng nhập</button></form>
+  <form class="form" id="registerForm" style="display:none" onsubmit="register(event)"><input required placeholder="Họ và tên"><input type="email" required placeholder="Email"><input type="password" required placeholder="Mật khẩu"><button class="btn btn-primary">Tạo tài khoản</button></form>
+</div></div>
+
+<div class="modal" id="wishlistModal"><div class="modal-head"><h2>♡ Sản phẩm yêu thích</h2><button onclick="closeModal('wishlistModal')">✕</button></div><div class="modal-body" id="wishlistBody"></div></div>
+
+<div class="modal" id="checkoutModal"><div class="modal-head"><h2>Thanh toán</h2><button onclick="closeModal('checkoutModal')">✕</button></div><div class="modal-body">
+<form class="form" onsubmit="placeOrder(event)">
+<input required placeholder="Họ và tên người nhận"><input required placeholder="Số điện thoại">
+<input required placeholder="Địa chỉ giao hàng"><textarea rows="3" placeholder="Ghi chú"></textarea>
+<select class="select"><option>Thanh toán khi nhận hàng (COD)</option><option>Chuyển khoản ngân hàng</option><option>Ví điện tử</option></select>
+<button class="btn btn-primary">Xác nhận đặt hàng</button>
+</form>
+</div></div>
+
+<div class="toast" id="toast"></div>
+<button class="backtop" id="backtop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+const products=[
+{id:1,name:"Nova Phone X Pro",cat:"Điện thoại",price:18990000,old:21990000,rating:4.9,img:"https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=700&q=80",desc:"Điện thoại cao cấp với màn hình sắc nét, hiệu năng mạnh và camera chuyên nghiệp."},
+{id:2,name:"Nova Phone Air",cat:"Điện thoại",price:8990000,old:9990000,rating:4.7,img:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=700&q=80",desc:"Thiết kế mỏng nhẹ, hiệu năng ổn định, phù hợp học tập và công việc."},
+{id:3,name:"ProBook Ultra 14",cat:"Laptop",price:24990000,old:27990000,rating:4.9,img:"https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=700&q=80",desc:"Laptop cao cấp cho công việc sáng tạo, văn phòng và lập trình."},
+{id:4,name:"WorkMate 15",cat:"Laptop",price:15990000,old:17990000,rating:4.6,img:"https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?auto=format&fit=crop&w=700&q=80",desc:"Màn hình lớn, pin tốt và hiệu năng cân bằng."},
+{id:5,name:"Tai nghe AirBeat Max",cat:"Phụ kiện",price:2990000,old:3990000,rating:4.8,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=700&q=80",desc:"Tai nghe chống ồn chủ động, âm thanh sống động và thời lượng pin dài."},
+{id:6,name:"Smart Watch S8",cat:"Phụ kiện",price:3290000,old:4290000,rating:4.7,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=700&q=80",desc:"Theo dõi vận động, thông báo thông minh và thiết kế thời trang."},
+{id:7,name:"Áo khoác Urban",cat:"Thời trang",price:690000,old:890000,rating:4.5,img:"https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=700&q=80",desc:"Áo khoác phong cách hiện đại, chất liệu bền và dễ phối đồ."},
+{id:8,name:"Sneaker Street Pro",cat:"Thời trang",price:1290000,old:1690000,rating:4.8,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=700&q=80",desc:"Giày sneaker êm ái, phù hợp đi học, đi làm và dạo phố."},
+{id:9,name:"Nồi chiên SmartCook",cat:"Gia dụng",price:1790000,old:2390000,rating:4.6,img:"https://images.unsplash.com/photo-1585515320310-259814833e62?auto=format&fit=crop&w=700&q=80",desc:"Nồi chiên dung tích lớn, nhiều chế độ nấu và dễ vệ sinh."},
+{id:10,name:"Máy xay FreshMix",cat:"Gia dụng",price:990000,old:1290000,rating:4.5,img:"https://images.unsplash.com/photo-1570222094114-d054a817e56b?auto=format&fit=crop&w=700&q=80",desc:"Máy xay đa năng cho sinh tố, thực phẩm và đồ uống."},
+{id:11,name:"Kem dưỡng Glow",cat:"Làm đẹp",price:490000,old:650000,rating:4.7,img:"https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=700&q=80",desc:"Kem dưỡng chăm sóc da với kết cấu nhẹ và dễ thẩm thấu."},
+{id:12,name:"Serum Bright Skin",cat:"Làm đẹp",price:590000,old:790000,rating:4.8,img:"https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=700&q=80",desc:"Serum dưỡng da dùng hàng ngày, thiết kế tiện lợi."},
+{id:13,name:"Bàn phím Mechanical K8",cat:"Phụ kiện",price:1490000,old:1890000,rating:4.8,img:"https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=700&q=80",desc:"Bàn phím cơ gọn gàng với trải nghiệm gõ tốt."},
+{id:14,name:"Chuột Wireless Pro",cat:"Phụ kiện",price:790000,old:990000,rating:4.6,img:"https://images.unsplash.com/photo-1527814050087-3793815479db?auto=format&fit=crop&w=700&q=80",desc:"Chuột không dây chính xác, thoải mái cho công việc dài giờ."},
+{id:15,name:"Túi đeo Urban Bag",cat:"Thời trang",price:550000,old:750000,rating:4.5,img:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=700&q=80",desc:"Túi đeo tiện dụng, thiết kế trẻ trung và nhiều ngăn."},
+{id:16,name:"Loa Bluetooth Mini",cat:"Phụ kiện",price:890000,old:1190000,rating:4.7,img:"https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&w=700&q=80",desc:"Loa nhỏ gọn, âm thanh mạnh mẽ và dễ mang theo."}
+];
+
+let cart=JSON.parse(localStorage.getItem("novashop_cart")||"[]");
+let wishlist=JSON.parse(localStorage.getItem("novashop_wish")||"[]");
+let activeCategory="Tất cả";
+let query="";
+
+const money=n=>new Intl.NumberFormat("vi-VN").format(n)+"₫";
+const getProduct=id=>products.find(p=>p.id===id);
+
+function save(){
+ localStorage.setItem("novashop_cart",JSON.stringify(cart));
+ localStorage.setItem("novashop_wish",JSON.stringify(wishlist));
+ updateCounts();
+}
+function updateCounts(){
+ document.getElementById("cartCount").textContent=cart.reduce((s,x)=>s+x.qty,0);
+ document.getElementById("wishCount").textContent=wishlist.length;
+}
+function stars(r){return "★".repeat(Math.round(r))+"☆".repeat(5-Math.round(r))}
+function productCard(p){
+ const liked=wishlist.includes(p.id);
+ const discount=Math.round((1-p.price/p.old)*100);
+ return `<article class="product">
+   ${discount>0?`<span class="discount">-${discount}%</span>`:""}
+   <button class="heart ${liked?"active":""}" onclick="toggleWish(${p.id})">${liked?"♥":"♡"}</button>
+   <div class="product-img"><img src="${p.img}" alt="${p.name}" loading="lazy"></div>
+   <div class="product-body">
+     <span class="product-cat">${p.cat}</span><div class="product-name">${p.name}</div>
+     <div class="rating">${stars(p.rating)} <span style="color:#777">(${p.rating})</span></div>
+     <div class="price">${money(p.price)} <span class="old">${money(p.old)}</span></div>
+     <div class="product-actions">
+       <button class="btn btn-outline" onclick="openDetail(${p.id})">Xem</button>
+       <button class="btn btn-primary" onclick="addCart(${p.id})">+ Giỏ</button>
+     </div>
+   </div>
+ </article>`;
+}
+function renderProducts(){
+ let list=products.filter(p=>(activeCategory==="Tất cả"||p.cat===activeCategory)&&
+   (!query||p.name.toLowerCase().includes(query.toLowerCase())||p.cat.toLowerCase().includes(query.toLowerCase())));
+ const sort=document.getElementById("sortSelect").value;
+ if(sort==="priceAsc")list.sort((a,b)=>a.price-b.price);
+ if(sort==="priceDesc")list.sort((a,b)=>b.price-a.price);
+ if(sort==="rating")list.sort((a,b)=>b.rating-a.rating);
+ if(sort==="name")list.sort((a,b)=>a.name.localeCompare(b.name));
+ document.getElementById("productGrid").innerHTML=list.length?list.map(productCard).join():"<div class='empty' style='grid-column:1/-1'>Không tìm thấy sản phẩm phù hợp.</div>";
+ document.getElementById("resultText").textContent=`Hiển thị ${list.length} sản phẩm`;
+}
+function renderFlash(){
+ document.getElementById("flashGrid").innerHTML=products.slice(0,4).map(productCard).join("");
+}
+function filterCategory(cat,btn){
+ activeCategory=cat;
+ document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));
+ if(btn)btn.classList.add("active");
+ renderProducts();
+ document.getElementById("products").scrollIntoView({behavior:"smooth"});
+}
+function searchProducts(){
+ query=document.getElementById("searchInput").value.trim();
+ activeCategory="Tất cả";
+ renderProducts();
+ document.getElementById("products").scrollIntoView({behavior:"smooth"});
+}
+document.getElementById("searchInput").addEventListener("input",e=>{query=e.target.value;renderProducts()});
+function addCart(id){
+ const item=cart.find(x=>x.id===id);
+ if(item)item.qty++;else cart.push({id,qty:1});
+ save();showToast("Đã thêm sản phẩm vào giỏ hàng 🛒");
+}
+function removeCart(id){cart=cart.filter(x=>x.id!==id);save();renderCart()}
+function changeQty(id,n){
+ const x=cart.find(x=>x.id===id);if(!x)return;
+ x.qty+=n;if(x.qty<=0)removeCart(id);else{save();renderCart()}
+}
+function renderCart(){
+ const body=document.getElementById("cartBody");
+ if(!cart.length){body.innerHTML="<div class='empty'>🛒<br>Giỏ hàng đang trống.</div>";document.getElementById("cartTotal").textContent="0₫";return}
+ body.innerHTML=cart.map(x=>{const p=getProduct(x.id);return `<div class="cart-item">
+ <img src="${p.img}" alt=""><div class="cart-info"><b>${p.name}</b><div>${money(p.price)}</div>
+ <div class="qty"><button onclick="changeQty(${p.id},-1)">−</button><span>${x.qty}</span><button onclick="changeQty(${p.id},1)">+</button><button onclick="removeCart(${p.id})" style="margin-left:auto">🗑️</button></div></div></div>`}).join("");
+ document.getElementById("cartTotal").textContent=money(cart.reduce((s,x)=>s+getProduct(x.id).price*x.qty,0));
+}
+function openCart(){closeAll(false);document.getElementById("overlay").classList.add("show");document.getElementById("cartDrawer").classList.add("show");renderCart()}
+function closeCart(){document.getElementById("cartDrawer").classList.remove("show");document.getElementById("overlay").classList.remove("show")}
+function openDetail(id){
+ const p=getProduct(id);
+ document.getElementById("detailBody").innerHTML=`<div class="detail"><div class="detail-img"><img src="${p.img}" alt="${p.name}"></div><div>
+ <span class="product-cat">${p.cat}</span><h2>${p.name}</h2><div class="rating">${stars(p.rating)} ${p.rating}/5</div>
+ <div class="price" style="font-size:27px">${money(p.price)} <span class="old">${money(p.old)}</span></div>
+ <p class="desc">${p.desc}</p><p>🚚 Giao hàng nhanh · 🛡️ Chính hãng · ↩️ Đổi trả hỗ trợ</p>
+ <button class="btn btn-primary" style="margin-top:18px;width:100%" onclick="addCart(${p.id});closeModal('detailModal')">Thêm vào giỏ hàng</button>
+ </div></div>`;
+ openModal("detailModal");
+}
+function toggleWish(id){
+ if(wishlist.includes(id))wishlist=wishlist.filter(x=>x!==id);else wishlist.push(id);
+ save();renderProducts();renderFlash();renderWishlist();
+}
+function openWishlist(){renderWishlist();openModal("wishlistModal")}
+function renderWishlist(){
+ const b=document.getElementById("wishlistBody");
+ const list=wishlist.map(getProduct).filter(Boolean);
+ b.innerHTML=list.length?`<div class="products-grid" style="grid-template-columns:repeat(2,1fr)">${list.map(productCard).join("")}</div>`:"<div class='empty'>♡ Chưa có sản phẩm yêu thích.</div>";
+}
+function openModal(id){document.getElementById("overlay").classList.add("show");document.getElementById(id).classList.add("show")}
+function closeModal(id){document.getElementById(id).classList.remove("show");document.getElementById("overlay").classList.remove("show")}
+function closeAll(remove=true){
+ document.querySelectorAll(".modal").forEach(x=>x.classList.remove("show"));
+ document.getElementById("cartDrawer").classList.remove("show");
+ if(remove)document.getElementById("overlay").classList.remove("show");
+}
+function openAuth(){openModal("authModal")}
+function showAuth(type){
+ document.getElementById("loginTab").classList.toggle("active",type==="login");
+ document.getElementById("registerTab").classList.toggle("active",type==="register");
+ document.getElementById("loginForm").style.display=type==="login"?"grid":"none";
+ document.getElementById("registerForm").style.display=type==="register"?"grid":"none";
+}
+function login(e){e.preventDefault();showToast("Đăng nhập demo thành công 👤");closeModal("authModal")}
+function register(e){e.preventDefault();showToast("Tạo tài khoản demo thành công 🎉");closeModal("authModal")}
+function checkout(){
+ if(!cart.length){showToast("Giỏ hàng đang trống");return}
+ closeCart();openModal("checkoutModal");
+}
+function placeOrder(e){e.preventDefault();cart=[];save();closeModal("checkoutModal");showToast("Đặt hàng thành công! 🎉")}
+function toggleFaq(btn){btn.parentElement.classList.toggle("open")}
+function copyCoupon(){navigator.clipboard?.writeText("NOVANEW100");showToast("Đã sao chép mã NOVANEW100 🎟️")}
+function subscribe(e){e.preventDefault();e.target.reset();showToast("Đăng ký nhận ưu đãi thành công 📩")}
+function showToast(msg){
+ const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");
+ clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.remove("show"),2500);
+}
+let seconds=8*3600+45*60+32;
+setInterval(()=>{seconds=Math.max(0,seconds-1);let h=Math.floor(seconds/3600),m=Math.floor(seconds%3600/60),s=seconds%60;
+ document.getElementById("hh").textContent=String(h).padStart(2,"0");document.getElementById("mm").textContent=String(m).padStart(2,"0");document.getElementById("ss").textContent=String(s).padStart(2,"0")},1000);
+window.addEventListener("scroll",()=>document.getElementById("backtop").classList.toggle("show",scrollY>500));
+renderProducts();renderFlash();updateCounts();
+</script>
 </body>
 </html>
