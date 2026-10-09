@@ -825,8 +825,7 @@
                         "true"
                     );
 
-                    window.location.replace(
-                        "index.html"
+                   window.location.replace("./index.html?fromIntro=1");
                     );
 
                 }, 800);
@@ -852,19 +851,7 @@
     </script>
 
 
-<script>
-  (function () {
-    let seconds = 4;
-
-    const timer = setInterval(function () {
-      seconds--;
-
-      if (seconds <= 0) {
-        clearInterval(timer);
-        window.location.href = "./index.html?fromIntro=1";
-      }
-    }, 1000);
-  })();
-</script>
+(function () {
+  let seconds = 4;
 </body>
 </html>
