@@ -8,16 +8,16 @@
 
 <style>
 :root{
-  --primary:#6c5ce7;
-  --primary2:#8e7cff;
-  --accent:#ff6b6b;
-  --success:#20bf6b;
-  --bg:#f6f7fb;
-  --card:#fff;
-  --text:#202124;
-  --muted:#6b7280;
-  --border:#e8eaf0;
-  --shadow:0 12px 35px rgba(31,35,55,.08);
+  --primary:#a9825a;
+  --primary2:#e5cfad;
+  --accent:#c98f70;
+  --success:#8c9b78;
+  --bg:#faf5ec;
+  --card:#fffdf8;
+  --text:#393348;
+  --muted:#81798d;
+  --border:#eee5f1;
+  --shadow:0 12px 35px rgba(105,83,130,.09);
   --radius:18px;
 }
 
@@ -36,7 +36,7 @@ img{max-width:100%;display:block}
 .container{width:min(1180px,calc(100% - 32px));margin:auto}
 
 /* HEADER */
-.topbar{background:#171827;color:#fff;font-size:13px}
+.topbar{background:#6f5846;color:#fff;font-size:13px}
 .topbar .container{
   display:flex;
   justify-content:space-between;
@@ -68,7 +68,7 @@ img{max-width:100%;display:block}
 .search{
   flex:1;
   display:flex;
-  background:#f3f4f8;
+  background:#f3eadc;
   border-radius:14px;
   overflow:hidden;
   border:1px solid transparent
@@ -91,10 +91,10 @@ img{max-width:100%;display:block}
   width:44px;
   height:44px;
   border-radius:13px;
-  background:#f3f4f8;
+  background:#f3eadc;
   position:relative
 }
-.icon-btn:hover{background:#e8e6ff}
+.icon-btn:hover{background:#eee0cb}
 .badge{
   position:absolute;
   right:-4px;
@@ -108,7 +108,7 @@ img{max-width:100%;display:block}
   display:grid;
   place-items:center
 }
-.nav{border-top:1px solid #f0f0f3}
+.nav{border-top:1px solid #f0e8f2}
 .nav .container{
   display:flex;
   gap:26px;
@@ -150,7 +150,7 @@ img{max-width:100%;display:block}
 }
 .btn-primary:hover{
   transform:translateY(-2px);
-  box-shadow:0 10px 20px rgba(108,92,231,.25)
+  box-shadow:0 10px 20px rgba(139,120,200,.24)
 }
 .btn-light{background:#fff;color:#292b3a}
 .btn-outline{
@@ -173,7 +173,7 @@ img{max-width:100%;display:block}
   align-items:center;
   position:relative;
   overflow:hidden;
-  background:linear-gradient(120deg,#5f4de4,#9d8cff);
+  background:linear-gradient(125deg,#b58b61 0%,#e5cfad 52%,#f1dfc8 100%);
   color:#fff
 }
 .hero-main:after{
@@ -194,7 +194,7 @@ img{max-width:100%;display:block}
 }
 .hero-main p{
   max-width:580px;
-  color:#eee;
+  color:#fff8ff;
   font-size:17px
 }
 .hero .btn{margin-top:24px}
@@ -208,8 +208,8 @@ img{max-width:100%;display:block}
   flex-direction:column;
   justify-content:center
 }
-.promo.one{background:linear-gradient(135deg,#ff6b6b,#ff9f43)}
-.promo.two{background:linear-gradient(135deg,#20bf6b,#26de81)}
+.promo.one{background:linear-gradient(135deg,#d7b08a,#f0ddc5)}
+.promo.two{background:linear-gradient(135deg,#a8b092,#dce0c9)}
 
 /* CATEGORIES */
 .categories{
@@ -235,7 +235,7 @@ img{max-width:100%;display:block}
 
 /* FLASH */
 .flash{
-  background:#171827;
+  background:#6f5846;
   color:#fff;
   border-radius:24px;
   padding:24px;
@@ -275,7 +275,7 @@ img{max-width:100%;display:block}
 .product:hover{transform:translateY(-5px)}
 .product-img{
   height:220px;
-  background:#f0f1f6;
+  background:#f3eadc;
   display:grid;
   place-items:center;
   overflow:hidden
@@ -379,7 +379,7 @@ img{max-width:100%;display:block}
 
 /* BANNER / REVIEWS / FAQ */
 .banner{
-  background:linear-gradient(110deg,#fff,#eceaff);
+  background:linear-gradient(110deg,#fffdf8,#f2e6d3);
   border-radius:25px;
   padding:35px;
   display:flex;
@@ -406,7 +406,7 @@ img{max-width:100%;display:block}
   width:42px;
   height:42px;
   border-radius:50%;
-  background:#e7e4ff;
+  background:#eee0cb;
   display:grid;
   place-items:center;
   font-weight:900;
@@ -438,7 +438,7 @@ img{max-width:100%;display:block}
 
 /* NEWSLETTER / FOOTER */
 .newsletter{
-  background:#171827;
+  background:#6f5846;
   color:#fff;
   border-radius:25px;
   padding:36px;
@@ -462,7 +462,7 @@ img{max-width:100%;display:block}
   flex:1
 }
 .footer{
-  background:#11121c;
+  background:#493b30;
   color:#bfc1ca;
   margin-top:30px;
   padding:45px 0 20px
@@ -491,7 +491,7 @@ img{max-width:100%;display:block}
 .overlay{
   position:fixed;
   inset:0;
-  background:rgba(10,12,20,.55);
+  background:rgba(73,59,48,.52);
   z-index:100;
   display:none
 }
@@ -550,7 +550,7 @@ img{max-width:100%;display:block}
   width:27px;
   height:27px;
   border-radius:7px;
-  background:#f0f1f5
+  background:#f3eadc
 }
 .cart-foot{
   padding:18px;
@@ -597,7 +597,7 @@ img{max-width:100%;display:block}
 .detail-img{
   border-radius:18px;
   overflow:hidden;
-  background:#f1f2f6
+  background:#f3eadc
 }
 .detail-img img{
   width:100%;
@@ -627,7 +627,7 @@ img{max-width:100%;display:block}
 .auth-tabs{
   display:flex;
   margin-bottom:20px;
-  background:#f4f4f8;
+  background:#f3eadc;
   border-radius:10px;
   padding:4px
 }
@@ -647,7 +647,7 @@ img{max-width:100%;display:block}
   right:20px;
   bottom:20px;
   z-index:200;
-  background:#171827;
+  background:#6f5846;
   color:#fff;
   padding:13px 18px;
   border-radius:12px;
@@ -729,7 +729,7 @@ img{max-width:100%;display:block}
 
 <header class="header">
   <div class="container header-main">
-    <a class="logo" href="#home">Duccne<span>store</span></a>
+    <a class="logo" href="#home">Nova<span>Shop</span></a>
 
     <div class="search">
       <input id="searchInput" placeholder="Tìm kiếm sản phẩm..." autocomplete="off">
@@ -922,7 +922,7 @@ img{max-width:100%;display:block}
         <div>
           <small>🎁 ƯU ĐÃI ĐẶC BIỆT</small>
           <h2>Giảm 100.000₫ cho đơn đầu tiên</h2>
-          <p>Nhập mã <b>DUCCNENEW100</b> khi thanh toán.</p>
+          <p>Nhập mã <b>DUCCNESTORE100</b> khi thanh toán.</p>
         </div>
         <button class="btn btn-primary" onclick="copyCoupon()">Sao chép mã</button>
       </div>
@@ -1032,9 +1032,9 @@ img{max-width:100%;display:block}
   <div class="container">
     <div class="footer-grid">
       <div>
-        <div class="logo">Duccne<span>store</span></div>
+        <div class="logo">Nova<span>Shop</span></div>
         <p>Nền tảng thương mại điện tử demo hiện đại, nhanh và thân thiện.</p>
-        <p>📍 Lạch Tray, TP. Hải Phòng</p>
+        <p>📍 123 Nguyễn Văn Linh, TP. Hồ Chí Minh</p>
         <p>☎ 1900 6868</p>
         <p>✉ support@Duccnestore.vn</p>
       </div>
@@ -1163,7 +1163,7 @@ img{max-width:100%;display:block}
 const products = [
   {
     id:1,
-    name:"Nee Phone X Pro",
+    name:"Nova Phone X Pro",
     cat:"Điện thoại",
     price:18990000,
     old:21990000,
@@ -1173,7 +1173,7 @@ const products = [
   },
   {
     id:2,
-    name:"Nee Phone Air",
+    name:"Nova Phone Air",
     cat:"Điện thoại",
     price:8990000,
     old:9990000,
@@ -1718,13 +1718,13 @@ function toggleFaq(button){
 }
 
 function copyCoupon(){
-  const coupon = "DUCCNEW100";
+  const coupon = "DUCCNESTORE100";
 
   if(navigator.clipboard){
     navigator.clipboard.writeText(coupon);
   }
 
-  showToast("Đã sao chép mã DUCCNEW100 🎟️");
+  showToast("Đã sao chép mã DUCCNESTORE100 🎟️");
 }
 
 function subscribe(event){
