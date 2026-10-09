@@ -769,7 +769,7 @@ img{max-width:100%;display:block}
           <h1>Cả thế giới mua sắm trong một chạm.</h1>
           <p>
             Khám phá hàng nghìn sản phẩm chính hãng, ưu đãi mỗi ngày
-            và trải nghiệm thanh toán nhanh chóng tại NovaShop.
+            và trải nghiệm thanh toán nhanh chóng tại Duccnestore.
           </p>
           <a href="#products" class="btn btn-light">Khám phá ngay →</a>
         </div>
@@ -886,7 +886,7 @@ img{max-width:100%;display:block}
     <div class="container">
       <div class="section-head">
         <div>
-          <h2>Vì sao chọn NovaShop?</h2>
+          <h2>Vì sao chọn Duccnestore?</h2>
           <p>Mọi thứ cần thiết cho một trải nghiệm mua sắm tử tế.</p>
         </div>
       </div>
@@ -922,7 +922,7 @@ img{max-width:100%;display:block}
         <div>
           <small>🎁 ƯU ĐÃI ĐẶC BIỆT</small>
           <h2>Giảm 100.000₫ cho đơn đầu tiên</h2>
-          <p>Nhập mã <b>NOVANEW100</b> khi thanh toán.</p>
+          <p>Nhập mã <b>DUCCNENEW100</b> khi thanh toán.</p>
         </div>
         <button class="btn btn-primary" onclick="copyCoupon()">Sao chép mã</button>
       </div>
@@ -981,9 +981,9 @@ img{max-width:100%;display:block}
       <div class="faq">
         <div class="faq-item">
           <button class="faq-q" onclick="toggleFaq(this)">
-            NovaShop có giao hàng toàn quốc? <span>＋</span>
+            Duccnestore có giao hàng toàn quốc? <span>＋</span>
           </button>
-          <div class="faq-a">Có. NovaShop hỗ trợ giao hàng đến hầu hết tỉnh thành tại Việt Nam.</div>
+          <div class="faq-a">Có. Duccnestore hỗ trợ giao hàng đến hầu hết tỉnh thành tại Việt Nam.</div>
         </div>
 
         <div class="faq-item">
@@ -1032,11 +1032,11 @@ img{max-width:100%;display:block}
   <div class="container">
     <div class="footer-grid">
       <div>
-        <div class="logo">Nova<span>Shop</span></div>
+        <div class="logo">Duccne<span>store</span></div>
         <p>Nền tảng thương mại điện tử demo hiện đại, nhanh và thân thiện.</p>
-        <p>📍 123 Nguyễn Văn Linh, TP. Hồ Chí Minh</p>
+        <p>📍 Lạch Tray, TP. Hải Phòng</p>
         <p>☎ 1900 6868</p>
-        <p>✉ support@novashop.vn</p>
+        <p>✉ support@Duccnestore.vn</p>
       </div>
 
       <div>
@@ -1064,7 +1064,7 @@ img{max-width:100%;display:block}
       </div>
     </div>
 
-    <div class="copyright">© 2026 NovaShop. Demo website thương mại điện tử.</div>
+    <div class="copyright">© 2026 Duccnestore. Demo website thương mại điện tử.</div>
   </div>
 </footer>
 
@@ -1163,7 +1163,7 @@ img{max-width:100%;display:block}
 const products = [
   {
     id:1,
-    name:"Nova Phone X Pro",
+    name:"Nee Phone X Pro",
     cat:"Điện thoại",
     price:18990000,
     old:21990000,
@@ -1173,7 +1173,7 @@ const products = [
   },
   {
     id:2,
-    name:"Nova Phone Air",
+    name:"Nee Phone Air",
     cat:"Điện thoại",
     price:8990000,
     old:9990000,
@@ -1323,8 +1323,8 @@ const products = [
   }
 ];
 
-let cart = JSON.parse(localStorage.getItem("novashop_cart") || "[]");
-let wishlist = JSON.parse(localStorage.getItem("novashop_wish") || "[]");
+let cart = JSON.parse(localStorage.getItem("Duccnestore_cart") || "[]");
+let wishlist = JSON.parse(localStorage.getItem("Duccnestore_wish") || "[]");
 let activeCategory = "Tất cả";
 let query = "";
 
@@ -1332,8 +1332,8 @@ const money = n => new Intl.NumberFormat("vi-VN").format(n) + "₫";
 const getProduct = id => products.find(p => p.id === id);
 
 function save(){
-  localStorage.setItem("novashop_cart", JSON.stringify(cart));
-  localStorage.setItem("novashop_wish", JSON.stringify(wishlist));
+  localStorage.setItem("Duccnestore_cart", JSON.stringify(cart));
+  localStorage.setItem("Duccnestore_wish", JSON.stringify(wishlist));
   updateCounts();
 }
 
@@ -1718,13 +1718,13 @@ function toggleFaq(button){
 }
 
 function copyCoupon(){
-  const coupon = "NOVANEW100";
+  const coupon = "DUCCNEW100";
 
   if(navigator.clipboard){
     navigator.clipboard.writeText(coupon);
   }
 
-  showToast("Đã sao chép mã NOVANEW100 🎟️");
+  showToast("Đã sao chép mã DUCCNEW100 🎟️");
 }
 
 function subscribe(event){
