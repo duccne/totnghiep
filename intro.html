@@ -850,11 +850,13 @@
         );
 
     </script>
+
 <script>
-  setTimeout(() => {
-    sessionStorage.setItem("allowIndex", "yes");
-    location.replace("index.html");
-  }, 4000);
+  window.addEventListener("load", function () {
+    setTimeout(function () {
+      window.location.href = "./index.html?fromIntro=1";
+    }, 4000);
+  });
 </script>
 </body>
 </html>
