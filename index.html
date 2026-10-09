@@ -6,12 +6,10 @@
 <meta name="description" content="Duccnestore - website thương mại điện tử hiện đại">
 <title>Duccnestore - Thương mại điện tử</title>
 <script>
-  const params = new URLSearchParams(location.search);
-
-  if (params.has("fromIntro")) {
-    history.replaceState(null, "", location.pathname);
-  } else {
+  if (sessionStorage.getItem("allowIndex") !== "yes") {
     location.replace("intro.html");
+  } else {
+    sessionStorage.removeItem("allowIndex");
   }
 </script>
 <style>
